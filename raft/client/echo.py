@@ -8,14 +8,11 @@ client = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
 client.connect((host, port))
 
 def main():
-    while True:
-        line = input("> ")
-        if not line:
-            break
-        client.send(line.encode())
-        data = client.recv(SIZE)
-        print("<", data.decode())
-    client.close()
+    with client:
+        while (line := input("> ")):
+            client.send(line.encode())
+            data = client.recv(SIZE)
+            print("<", data.decode())
 
 
 if __name__ == "__main__":

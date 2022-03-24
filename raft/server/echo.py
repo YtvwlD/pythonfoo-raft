@@ -8,14 +8,10 @@ BACKLOG = 5
 
 
 def handle_single_client(client):
-    while True:
-        data = client.recv(SIZE)
-        if data:
+    with client:
+        while (data := client.recv(SIZE)):
             print(data.decode())
             client.send(data)
-        else:
-            client.close()
-            return
 
 
 def main():
