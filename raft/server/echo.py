@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from threading import Thread
 import socket
 
 SIZE = 1024
@@ -18,9 +19,12 @@ def main():
     s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
     s.bind((HOST, PORT))
     s.listen(BACKLOG)
+    threads = list()
     while True:
         client, address = s.accept()
-        handle_single_client(client)
+        thread = Thread(target=handle_single_client, args=(client,))
+        thread.start()
+        threads.append(thread)
 
 
 if __name__ == "__main__":
