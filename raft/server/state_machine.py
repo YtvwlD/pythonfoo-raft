@@ -10,14 +10,13 @@ class StateMachine:
         command, *arguments = cmd
         if command == "get":
             key, = arguments
-            return self.state.get(key)
+            return self.state[key]
         if command == "set":
             key, value = arguments
             self.state[key] = value
             return
         if command == "del":
             key, = arguments
-            if key in self.state:
-                del self.state[key]
+            del self.state[key]
             return
         raise NotImplementedError(command)

@@ -7,11 +7,13 @@ def state_machine():
 
 
 def test_set_get_del(state_machine):
-    assert state_machine.handle(("get", "foo")) is None
+    with pytest.raises(KeyError):
+        state_machine.handle(("get", "foo"))
     state_machine.handle(("set", "foo", 42))
     assert state_machine.handle(("get", "foo")) == 42
     state_machine.handle(("del", "foo"))
-    assert state_machine.handle(("get", "foo")) is None
+    with pytest.raises(KeyError):
+        state_machine.handle(("get", "foo"))
 
 
 def test_set_change(state_machine):
@@ -31,3 +33,10 @@ def test_set_multiple(state_machine):
 def test_invalid(state_machine):
     with pytest.raises(NotImplementedError):
         state_machine.handle("invalid")
+
+
+def test_not_found(state_machine):
+    with pytest.raises(KeyError):
+        state_machine.handle(("get", "nonexisting"))
+    with pytest.raises(KeyError):
+        state_machine.handle(("del", "nonexisting"))

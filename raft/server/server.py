@@ -49,7 +49,7 @@ class Server:
                     traceback.print_exc()
                     result = {
                         "status": "err",
-                        "reason": str(exc),
+                        "reason": type(exc).__name__,
                     }
                 print("<", result)
                 client.send(json.dumps(result).encode())
