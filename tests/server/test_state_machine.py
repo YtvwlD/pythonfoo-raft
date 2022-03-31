@@ -32,9 +32,14 @@ def test_set_multiple(state_machine):
     assert state_machine.handle(("get", "bar")) == 23
 
 
-def test_invalid(state_machine):
+def test_invalid_command(state_machine):
     with pytest.raises(NotImplementedError):
         state_machine.handle("invalid")
+
+
+def test_invalid(state_machine):
+    with pytest.raises(TypeError):
+        state_machine.handle(("get", 0))
 
 
 @pytest.mark.parametrize("command", ["get", "del"])

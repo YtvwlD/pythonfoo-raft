@@ -10,13 +10,19 @@ class StateMachine:
         command, *arguments = cmd
         if command == "get":
             key, = arguments
+            if not isinstance(key, str):
+                raise TypeError("Key must be a string")
             return self.state[key]
         if command == "set":
             key, value = arguments
+            if not isinstance(key, str):
+                raise TypeError("Key must be a string")
             self.state[key] = value
             return
         if command == "del":
             key, = arguments
+            if not isinstance(key, str):
+                raise TypeError("Key must be a string")
             del self.state[key]
             return
         raise NotImplementedError(command)
