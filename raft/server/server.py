@@ -34,7 +34,11 @@ class Server:
     def handle_client(self, client: socket.socket):
         with client:
             while (data := client.recv(SIZE)):
-                command = json.loads(data.decode())
+                try:
+                    command = json.loads(data.decode())
+                except:
+                    # try to parse as a string
+                    command = data.decode().strip().split(" ", 2)
                 print(">", command)
                 try:
                     result = {
