@@ -40,6 +40,12 @@ def test_invalid_command(state_machine):
 def test_invalid(state_machine):
     with pytest.raises(TypeError):
         state_machine.handle(("get", 0))
+    with pytest.raises(TypeError):
+        state_machine.handle(("set", 0, 5))
+    with pytest.raises(TypeError):
+        state_machine.handle(("del", 0))
+
+
 
 
 @pytest.mark.parametrize("command", ["get", "del"])
