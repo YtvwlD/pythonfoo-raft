@@ -34,9 +34,12 @@ class Server:
     def handle_client(self, client: socket.socket):
         with client:
             while (data := client.recv(SIZE)):
-                self.handle_command_from_client(client, data)
+                response = self.handle_command_from_client(client, data)
+                client.send(response)
     
-    def handle_command_from_client(self, client: socket.socket, data: bytes):
+    def handle_command_from_client(
+        self, client: socket.socket, data: bytes
+    ) -> bytes:
         try:
             command = json.loads(data.decode())
         except:
@@ -55,7 +58,7 @@ class Server:
                 "reason": type(exc).__name__,
             }
         print("<", result)
-        client.send(json.dumps(result).encode())
+        return json.dumps(result).encode()
 
 
 if __name__ == "__main__":
