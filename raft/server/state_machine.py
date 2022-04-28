@@ -1,4 +1,6 @@
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, Optional, Tuple, Union
+
+Command = Union[Tuple[str, str, Any], Tuple[str, str]]  # TODO
 
 class StateMachine:
     state: Dict[str, Any]
@@ -6,7 +8,7 @@ class StateMachine:
     def __init__(self):
         self.state = dict()
     
-    def handle(self, cmd: Tuple[str]) -> Optional[Any]:
+    def handle(self, cmd: Command) -> Optional[Any]:
         command, *arguments = cmd
         if command == "get":
             key, = arguments
